@@ -27,7 +27,7 @@ def scrape_from site
         :youtube_id => get_youtube_id(item_json["url"])
       }
       ScraperWiki.save_sqlite([:id], data)
-      puts "Saving #{data["id"]}"
+      puts "Add #{data[:id]}: #{data[:title]}"
     end
 
     puts "\n\n"
