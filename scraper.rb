@@ -11,6 +11,7 @@ def get_youtube_id url
 end
 
 def scrape_from site
+  agent = Mechanize.new
   page = agent.get "https://news.ycombinator.com/from?site=#{site}"
 
   loop do
@@ -41,6 +42,5 @@ def scrape_from site
   end
 end
 
-agent = Mechanize.new
 scrape_from "youtube.com"
 scrape_from "youtu.be"
