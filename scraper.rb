@@ -1,14 +1,12 @@
 require 'scraperwiki'
 require 'mechanize'
 require 'open-uri'
-require 'addressable/uri'
 
 def get_youtube_id url
-  uri = Addressable::URI.parse url
-  if uri.path == "/watch"
-    uri.query_values["v"] if uri.query_values
+  id = if url.include? "youtube.com"
+    url.split("/").last.split("?").last.split("&").first.split("=").last
   else
-    uri.path
+    url.split("/").last
   end
 end
 
