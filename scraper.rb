@@ -3,9 +3,9 @@ require 'mechanize'
 require 'open-uri'
 
 def get_youtube_id url
+  return nil unless (url.include? "youtube.com" or url.include? "youtu.be")
   begin
-    id = (url.include? "youtube.com/watch") ? url.split("/").last.split("?").last.split("&").first.split("=").last : url.split("/").last
-    return id
+    return (url.include? "youtube.com/watch") ? url.split("/").last.split("?").last.split("&").first.split("=").last : url.split("/").last
   rescue
     return nil
   end
