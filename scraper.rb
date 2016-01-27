@@ -3,10 +3,11 @@ require 'mechanize'
 require 'open-uri'
 
 def get_youtube_id url
-  id = if url.include? "youtube.com"
-    url.split("/").last.split("?").last.split("&").first.split("=").last
-  else
-    url.split("/").last
+  begin
+    id = (url.include? "youtube.com/watch") ? url.split("/").last.split("?").last.split("&").first.split("=").last : url.split("/").last
+    return id
+  rescue
+    return nil
   end
 end
 
@@ -26,7 +27,7 @@ def scrape_from site
         :title => item_json["title"],
         :youtube_id => get_youtube_id(item_json["url"])
       }
-      ScraperWiki.save_sqlite([:id], data)
+      ScraperWiki.save_sqlite([:id], data) unless data[:youtube_id].nil?
       puts "Add #{data[:id]}: #{data[:title]}"
     end
 
