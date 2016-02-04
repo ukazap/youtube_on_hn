@@ -2,10 +2,11 @@ require 'scraperwiki'
 require 'mechanize'
 require 'open-uri'
 
-def scrape_from site
+def scrape_from(site)
   agent = Mechanize.new
   page = agent.get "https://news.ycombinator.com/from?site=#{site}"
 
+  page_number = 1
   loop do
     items = page.search(".votelinks")
     items.each do |item|
@@ -25,7 +26,7 @@ def scrape_from site
     puts "\n\n"
 
     if next_link = page.link_with(text: "More")
-      puts "Turning page"
+      puts "Turning to page #{page_number += 1}"
       page = next_link.click
     else
       puts "Done."
