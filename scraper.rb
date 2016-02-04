@@ -2,15 +2,6 @@ require 'scraperwiki'
 require 'mechanize'
 require 'open-uri'
 
-def get_youtube_id url
-  return nil unless (url.include? "youtube.com" or url.include? "youtu.be")
-  begin
-    return (url.include? "youtube.com/watch") ? url.split("/").last.split("?").last.split("&").first.split("=").last : url.split("/").last
-  rescue
-    return nil
-  end
-end
-
 def scrape_from site
   agent = Mechanize.new
   page = agent.get "https://news.ycombinator.com/from?site=#{site}"
@@ -25,9 +16,9 @@ def scrape_from site
         :score => item_json["score"],
         :time => item_json["time"],
         :title => item_json["title"],
-        :youtube_id => get_youtube_id(item_json["url"])
+        :youtube_url => item_json["url"]
       }
-      ScraperWiki.save_sqlite([:id], data) unless data[:youtube_id].nil?
+      ScraperWiki.save_sqlite([:id, :youtube_url], data) if data[:youtube_url] =~ /(\/watch?)|(youtu.be\/)/
       puts "Add #{data[:id]}: #{data[:title]}"
     end
 
