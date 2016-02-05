@@ -31,7 +31,6 @@ def scrape_from site
         next
       end
     end
-    puts "\n"
 
     if next_link = page.link_with(text: "More")
       page = next_link.click
