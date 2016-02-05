@@ -42,5 +42,7 @@ def scrape_from site
   end
 end
 
-scrape_from "youtube.com"
-scrape_from "youtu.be"
+threads = []
+threads << Thread.new { scrape_from "youtube.com" }
+threads << Thread.new { scrape_from "youtu.be" }
+threads.each { |thr| thr.join }
