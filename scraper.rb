@@ -8,6 +8,7 @@ def scrape_from site
 
   page_number = 0
   loop do
+    system "clear"
     puts "Scanning page ##{page_number += 1} for #{site}"
     items = page.search(".votelinks")
     items.each do |item|
